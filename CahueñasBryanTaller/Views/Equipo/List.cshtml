@@ -1,65 +1,46 @@
-﻿@model IEnumerable<CahueñasBryanTaller.Models.Equipo>
+﻿@model List<CahueñasBryanTaller.Models.Equipo>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Listado de Equipos";
 }
 
-<h1>List</h1>
+<h2 class="text-center my-4">Tabla de Posiciones - Liga Pro Ecuador</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="text-end mb-3">
+    <a class="btn btn-success" asp-action="Create">Crear nuevo equipo</a>
+</div>
+
+<table class="table table-bordered table-hover table-striped">
+    <thead class="table-dark text-center">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PartidosJugados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PartidosGanados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PartidosEmpatados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PartidosPerdidos)
-            </th>
-            <th></th>
+            <th>Nombre</th>
+            <th>Jugados</th>
+            <th>Ganados</th>
+            <th>Empatados</th>
+            <th>Perdidos</th>
+            <th>Puntos</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartidosJugados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartidosGanados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartidosEmpatados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartidosPerdidos)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new {@class = "btn btn-success"}) |        
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+    <tbody class="text-center">
+        @foreach (var equipo in Model)
+        {
+            var puntos = (equipo.PartidosGanados * 3) + (equipo.PartidosEmpatados * 1);
+            <tr>
+                <td>@equipo.Nombre</td>
+                <td>@equipo.PartidosJugados</td>
+                <td>@equipo.PartidosGanados</td>
+                <td>@equipo.PartidosEmpatados</td>
+                <td>@equipo.PartidosPerdidos</td>
+                <td><strong>@puntos</strong></td>
+                <td>
+                    <a class="btn btn-primary btn-sm me-1" asp-action="Edit" asp-route-id="@equipo.Id">Editar</a>
+                    <a class="btn btn-info btn-sm me-1" asp-action="Details" asp-route-id="@equipo.Id">Ver</a>
+                    <form asp-action="Delete" asp-route-id="@equipo.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este equipo?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

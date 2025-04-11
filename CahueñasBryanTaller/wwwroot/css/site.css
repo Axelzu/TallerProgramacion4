@@ -1,4 +1,4 @@
-body {
+﻿body {
     background-color: #f4f6f8;
     font-family: 'Segoe UI', sans-serif;
 }
@@ -7,8 +7,44 @@ h2 {
     color: #1b1e21;
 }
 
-footer {
-    background-color: #343a40;
-    color: white;
-    padding: 20px;
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
 }
+/* Hacer que el carrusel ocupe toda la pantalla */
+#ligaProCarousel {
+    height: 100vh; /* Esto hace que el carrusel tenga el 100% de la altura de la pantalla */
+}
+
+    #ligaProCarousel .carousel-inner {
+        height: 100%; /* Esto asegura que el contenido del carrusel ocupe toda la altura */
+
+    }
+
+.carousel-item img {
+    object-fit: cover; /* Asegura que las imágenes cubran completamente el área del carrusel */
+    height: 100%; /* Asegura que la imagen ocupe toda la altura del carrusel */
+}
+
+/* Estilos para el texto del carrusel */
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+    .carousel-caption h1 {
+        font-size: 4rem; /* Tamaño grande para el texto */
+        font-weight: bold; /* Texto grueso */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Agregar sombra al texto para destacarlo */
+    }
+
+    .carousel-caption p {
+        font-size: 2rem; /* Tamaño grande para el texto secundario */
+        font-weight: normal; /* Normal para el texto secundario */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Agregar sombra al texto para destacarlo */
+    }

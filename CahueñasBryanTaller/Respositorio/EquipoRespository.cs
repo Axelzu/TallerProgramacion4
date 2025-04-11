@@ -1,50 +1,79 @@
 ﻿using CahueñasBryanTaller.Models;
 
-namespace CahueñasBryanTaller.Respositorio
+namespace CahueñasBryanTaller.Repositorio
 {
     public class EquipoRespository
     {
-        public IEnumerable<Equipo> Equipos;
-        public EquipoRespository() {
+        public List<Equipo> Equipos;
+
+        public EquipoRespository()
+        {
             Equipos = DevuelveListadoEquipo();
         }
-        public IEnumerable<Equipo> DevuelveListadoEquipo()
+
+        private List<Equipo> DevuelveListadoEquipo()
         {
-            List<Equipo> equipos = new List<Equipo>();
-            Equipo ldu = new Equipo
+            return new List<Equipo>
             {
-                Id = 1,
-                Nombre = "Liga de Quito",
-                PartidosJugados = 10,
-                PartidosGanados = 10,
-                PartidosEmpatados = 10,
-                PartidosPerdidos = 10,
-
+                new Equipo
+                {
+                    Id = 1,
+                    Nombre = "Liga de Quito",
+                    PartidosJugados = 10,
+                    PartidosGanados = 6,
+                    PartidosEmpatados = 3,
+                    PartidosPerdidos = 1
+                },
+                new Equipo
+                {
+                    Id = 2,
+                    Nombre = "Barcelona",
+                    PartidosJugados = 10,
+                    PartidosGanados = 5,
+                    PartidosEmpatados = 4,
+                    PartidosPerdidos = 1
+                }
             };
-            Equipo barcelona = new Equipo
-            {
-                Id = 2,
-                Nombre = "Barcelona",
-                PartidosJugados = 10,
-                PartidosGanados = 9,
-                PartidosEmpatados = 5,
-                PartidosPerdidos = 10,
-
-            };
-            equipos.Add(ldu);
-            equipos.Add(barcelona);
-
-            return equipos;
         }
+
+        public IEnumerable<Equipo> ObtenerTodos()
+        {
+            return Equipos.OrderByDescending(e => e.PartidosGanados).ToList();
+        }
+
         public Equipo DevuelveEquipoPorID(int id)
         {
-            var equipos = DevuelveListadoEquipo();
-            var equipo = equipos.First(item => item.Id == id);
-            return equipo;
+            return Equipos.FirstOrDefault(e => e.Id == id);
         }
-        public bool ActualizarEquipo(int Id, Equipo equipo)
+
+        public void AgregarEquipo(Equipo equipo)
         {
-            return true;
+            equipo.Id = Equipos.Max(e => e.Id) + 1;
+            Equipos.Add(equipo);
+        }
+
+        public bool ActualizarEquipo(int id, Equipo actualizado)
+        {
+            var equipo = Equipos.FirstOrDefault(e => e.Id == id);
+            if (equipo != null)
+            {
+                equipo.Nombre = actualizado.Nombre;
+                equipo.PartidosJugados = actualizado.PartidosJugados;
+                equipo.PartidosGanados = actualizado.PartidosGanados;
+                equipo.PartidosEmpatados = actualizado.PartidosEmpatados;
+                equipo.PartidosPerdidos = actualizado.PartidosPerdidos;
+                return true;
+            }
+            return false;
+        }
+
+        public void EliminarEquipo(int id)
+        {
+            var equipo = Equipos.FirstOrDefault(e => e.Id == id);
+            if (equipo != null)
+            {
+                Equipos.Remove(equipo);
+            }
         }
     }
-} 
+}

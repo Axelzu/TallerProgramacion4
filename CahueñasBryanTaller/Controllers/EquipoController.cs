@@ -1,61 +1,69 @@
 ﻿using CahueñasBryanTaller.Models;
-using CahueñasBryanTaller.Respositorio;
-using Microsoft.AspNetCore.Http;
+using CahueñasBryanTaller.Repositorio;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 namespace CahueñasBryanTaller.Controllers
 {
     public class EquipoController : Controller
     {
-        public EquipoRespository _respository;
-       
-            public EquipoController()
-            {
-                _respository = new EquipoRespository();
-            }
+        private static EquipoRespository _respository = new EquipoRespository();
 
-       
-
-        public ActionResult View()
+        public IActionResult List()
         {
-            return View();
-        }
-        public ActionResult List()
-        {
-            
-            var equipos = _respository.DevuelveListadoEquipo();
-
-            equipos = equipos.OrderBy(item => item.PartidosGanados);
-           
+            var equipos = _respository.ObtenerTodos();
             return View(equipos);
         }
-        public ActionResult Create()
+
+        // Crear
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
-        public ActionResult Edit(int Id)
+
+        [HttpPost]
+        public IActionResult Create(Equipo equipo)
         {
-            
-            var equipo = _respository.DevuelveEquipoPorID(Id);
+            if (ModelState.IsValid)
+            {
+                _respository.AgregarEquipo(equipo);
+                return RedirectToAction("List");
+            }
             return View(equipo);
         }
-        [HttpPost]
-        public ActionResult Edit(int Id, Equipo equipo)
-        {
-            try
-            {
-                
-                _respository.ActualizarEquipo(Id, equipo);
-                return RedirectToAction(nameof(List));
-            }
-            catch
-            {
-                return View();
-            }
 
+        // Editar
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var equipo = _respository.DevuelveEquipoPorID(id);
+            return View(equipo);
         }
 
-    }
+        [HttpPost]
+        public IActionResult Edit(Equipo equipo)
+        {
+            if (ModelState.IsValid)
+            {
+                _respository.ActualizarEquipo(equipo.Id, equipo);
+                return RedirectToAction("List");
+            }
+            return View(equipo);
+        }
 
+        // Eliminar
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _respository.EliminarEquipo(id);
+            return RedirectToAction("List");
+        }
+
+        // Ver Detalles
+        public IActionResult Details(int id)
+        {
+            var equipo = _respository.DevuelveEquipoPorID(id);
+            return View(equipo);
+        }
+    }
 }
