@@ -4,6 +4,10 @@ namespace CahueñasBryanTaller.Respositorio
 {
     public class EquipoRespository
     {
+        public IEnumerable<Equipo> Equipos;
+        public EquipoRespository() {
+            Equipos = DevuelveListadoEquipo();
+        }
         public IEnumerable<Equipo> DevuelveListadoEquipo()
         {
             List<Equipo> equipos = new List<Equipo>();
@@ -31,6 +35,16 @@ namespace CahueñasBryanTaller.Respositorio
             equipos.Add(barcelona);
 
             return equipos;
+        }
+        public Equipo DevuelveEquipoPorID(int id)
+        {
+            var equipos = DevuelveListadoEquipo();
+            var equipo = equipos.First(item => item.Id == id);
+            return equipo;
+        }
+        public bool ActualizarEquipo(int Id, Equipo equipo)
+        {
+            return true;
         }
     }
 } 
