@@ -1,0 +1,46 @@
+﻿@model List<CahueñasBryanTaller.Models.Equipo>
+
+@{
+    ViewData["Title"] = "Listado de Equipos";
+}
+
+<h2 class="text-center my-4">Tabla de Posiciones - Liga Pro Ecuador</h2>
+
+<div class="text-end mb-3">
+    <a class="btn btn-success" asp-action="Create">Crear nuevo equipo</a>
+</div>
+
+<table class="table table-bordered table-hover table-striped">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Nombre</th>
+            <th>Jugados</th>
+            <th>Ganados</th>
+            <th>Empatados</th>
+            <th>Perdidos</th>
+            <th>Puntos</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var equipo in Model)
+        {
+            var puntos = (equipo.PartidosGanados * 3) + (equipo.PartidosEmpatados * 1);
+            <tr>
+                <td>@equipo.Nombre</td>
+                <td>@equipo.PartidosJugados</td>
+                <td>@equipo.PartidosGanados</td>
+                <td>@equipo.PartidosEmpatados</td>
+                <td>@equipo.PartidosPerdidos</td>
+                <td><strong>@puntos</strong></td>
+                <td>
+                    <a class="btn btn-primary btn-sm me-1" asp-action="Edit" asp-route-id="@equipo.Id">Editar</a>
+                    <a class="btn btn-info btn-sm me-1" asp-action="Details" asp-route-id="@equipo.Id">Ver</a>
+                    <form asp-action="Delete" asp-route-id="@equipo.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este equipo?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

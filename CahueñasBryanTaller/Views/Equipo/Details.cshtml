@@ -1,0 +1,43 @@
+﻿@model CahueñasBryanTaller.Models.Equipo
+
+@{
+    ViewData["Title"] = "Detalle del equipo";
+}
+
+<h2>@Model.Nombre</h2>
+
+<img src="~/imagenes/@Model.Nombre.ToLower().Replace(" ", "")_logo.png" style="max-height: 120px;" />
+
+<p><strong>Descripción:</strong> Este es el equipo @Model.Nombre en la Liga Pro.</p>
+
+<form id="formPuntos" class="mt-4">
+    <div class="mb-2">
+        <label>Partidos Jugados</label>
+        <input type="number" id="jugados" class="form-control" value="@Model.PartidosJugados" />
+    </div>
+    <div class="mb-2">
+        <label>Ganados</label>
+        <input type="number" id="ganados" class="form-control" value="@Model.PartidosGanados" />
+    </div>
+    <div class="mb-2">
+        <label>Empatados</label>
+        <input type="number" id="empatados" class="form-control" value="@Model.PartidosEmpatados" />
+    </div>
+    <div class="mb-2">
+        <label>Perdidos</label>
+        <input type="number" id="perdidos" class="form-control" value="@Model.PartidosPerdidos" />
+    </div>
+    <div class="mt-3">
+        <button type="button" onclick="calcularPuntos()" class="btn btn-primary">Calcular puntos</button>
+        <p class="mt-2"><strong>Total puntos:</strong> <span id="resultadoPuntos"></span></p>
+    </div>
+</form>
+
+<script>
+    function calcularPuntos() {
+        let ganados = parseInt(document.getElementById("ganados").value);
+        let empatados = parseInt(document.getElementById("empatados").value);
+        let puntos = (ganados * 3) + (empatados * 1);
+        document.getElementById("resultadoPuntos").textContent = puntos;
+    }
+</script>
